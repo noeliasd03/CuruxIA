@@ -1,0 +1,169 @@
+/* 🏗 Estilos de la tabla */
+.alert-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  border-radius: 10px; /* 🔹 Bordes redondeados en toda la tabla */
+  overflow: hidden; /* 🔹 Asegura que los bordes sean visibles */
+  background-color: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);  
+}
+
+/* 📌 Bordes de la tabla */
+.alert-table th, .alert-table td {
+  padding: 1.3em;
+  text-align: left;
+}
+
+.maquinote {
+  /* color: var(--color-primary); */
+  font-weight: bolder;
+  font-size: 1.1em;
+}
+
+.maquina:hover {
+  font-size: 1.1em;
+
+}
+/* 🔹 Bordes redondeados en las esquinas exteriores */
+.alert-table thead tr:first-child th:first-child {
+  border-top-left-radius: 10px;
+}
+.alert-table thead tr:first-child th:last-child {
+  border-top-right-radius: 10px;
+}
+.alert-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+.alert-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+/* 🎨 Estilo del título de la tabla */
+.table-title {
+  font-size: 2rem; /* Más grande */
+  font-family:  Tahoma,  Verdana, sans-serif;
+  color: var(--color-primary); /* Color primario */
+  margin-bottom: 20px;
+}
+
+/* 🔹 Estilo del encabezado de la tabla */
+.alert-table thead {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+/* 🎨 Alternar colores en filas para mejor visibilidad */
+.alert-table tbody tr:nth-child(even) {
+  /* background-color: var(--color-gray); */
+  border: 1px solid black;
+}
+
+.alert-table tbody td{
+  border-bottom: 1px solid #4b4f5228;
+}
+
+.alert-table tbody tr:hover {
+  background-color: var(--color-gray);
+  cursor: pointer;
+}
+
+/* 📌 Mensaje cuando no hay alertas */
+.empty-message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  margin-top: 20px;
+}
+
+/* 📌 Estilos de la columna de acción */
+.action-column {
+  text-align: center;
+}
+
+
+
+/* 📌 Columnas del encabezado */
+.alert-table th {
+    font-size: 0.7em;
+    font-family: 'Montserrat', sans-serif; /* 🔹 Tipografía Montserrat */
+}
+
+
+/* 🔹 Estilos de los botones de acción */
+.action-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin: 0 5px; /* Espacio entre los botones */
+}
+
+
+
+.action-btn img {
+  width: 25px; /* Tamaño de la imagen dentro del botón */
+  height: 25px;
+}
+
+/* 🔹 Estilos para los desplegables (tipo de avería y estado) */
+select {
+    padding: 6px 12px;
+    border: 1px solid var(--color-gray);
+    border-radius: 4px;
+    background-color: var(--color-white);
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+}
+.alert-table tr {
+  font-size: 1.1em;
+}
+select:hover {
+    border-color: var(--color-black);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 5px rgba(93, 163, 234, 0.5);
+}
+
+/* 🔹 Estilos para el botón de "Guardar" */
+.save-btn {
+    padding: 1.2em;
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.save-btn:hover {
+  font-size: 0.9em;
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 2000px;
+}

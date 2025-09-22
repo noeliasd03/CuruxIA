@@ -1,65 +1,72 @@
-# CuruxIA - Predicción de Errores en Máquinas Industriales
+# 🎧 Autoencoder para Detección de Anomalías Acústicas
 
-## 📌 RESUMEN
+Este proyecto implementa un sistema de entrenamiento y predicción en tiempo real con un autoencoder que detecta anomalías acústicas usando espectrogramas mel.
 
-CuruxIA se inspira en la excepcional audición de la curuxa (lechuza) para desarrollar una solución eficiente en la detección de fallos en maquinaria industrial. A través de sensores acústicos que envían datos a la nube de AWS, logramos identificar anomalías y notificar a los operarios para optimizar el funcionamiento de las máquinas.
+## 📋 Descripción
 
-## 🛠 INFRAESTRUCTURA
-
-### 🔧 CONFIGURACIÓN DE HARDWARE Y CONECTIVIDAD
-
-El sistema se basa en sensores acústicos conectados a microcontroladores ESP32, que transmiten datos por WiFi a la nube. Si se requiere preprocesamiento local, el sistema puede escalarse utilizando Raspberry Pi para **edge computing**.
-
-![Infraestructura](attachment:5283ef65-8c53-45fa-a92e-a53f9682af5f:Captura_de_pantalla_1-4-2025_13416_docs.google.com.jpeg)
-
-### ☁️ CLOUD AWS
-
-AWS proporciona una infraestructura escalable y segura para almacenar y procesar datos. Los servicios clave incluyen:
-
-- **Amazon SageMaker** – Ejecución del modelo de IA
-- **Amazon RDS** – Almacenamiento de anomalías detectadas
-- **Amazon ECS** – Alojamiento de la aplicación de visualización de errores y feedback de los operarios
-- **Amazon QuickSight** – Analítica para tomar decisiones empresariales basadas en datos
-
-![Cloud AWS](attachment:5283ef65-8c53-45fa-a92e-a53f9682af5f:Captura_de_pantalla_1-4-2025_13416_docs.google.com.jpeg)
-
-## 🤖 METODOLOGÍA
-
-El sistema procesa los datos acústicos en la nube aplicando **Descomposición en Valores Singulares (SVD)** para eliminar ruido ambiental y transforma las ondas sonoras en **espectrogramas MEL** para facilitar el entrenamiento del modelo de IA.
-
-![Metodología](attachment:4381e6f2-2387-4a4e-9410-b10316beb88a:Captura_de_pantalla_1-4-2025_134124_docs.google.com.jpeg)
-
-### 🔍 FASE DE ENTRENAMIENTO
-
-El modelo de IA utiliza redes neuronales avanzadas:
-
-1. **CNN** – Reconocimiento de patrones en imágenes
-2. **LSTM** – Análisis de secuencias de sonido
-3. **Autoencoders** – Detección de anomalías mediante compresión y reconstrucción de datos
-
-Durante esta fase, los operarios proporcionarán feedback sobre las alertas de fallos, optimizando el modelo de manera continua.
-
-### 🚀 FASE FINAL
-
-Cuando el modelo alcance una alta precisión en sus predicciones, podrá operar de manera autónoma, permitiendo su implementación en zonas rurales con poca presencia de personal.
-
-## 🔬 VIABILIDAD TÉCNICA
-
-El proyecto presenta una alta viabilidad técnica debido a:
-
-- **Hardware económico y fácil de instalar**
-- **AWS como solución escalable y segura**
-- **Modelo IA basado en investigaciones con problemáticas similares**
-
-![Viabilidad](attachment:fc7743d7-bf06-4787-a3f0-7b1ce4933b3c:Captura_de_pantalla_1-4-2025_134139_docs.google.com.jpeg)
-
-## 🌱 SOSTENIBILIDAD AMBIENTAL
-
-CuruxIA utiliza sensores con componentes reemplazables para minimizar desperdicios y prolongar su vida útil mediante protección contra factores ambientales.
-
-## 🏡 IMPACTO POSITIVO EN ZONAS RURALES
-
-Facilita la detección de errores en infraestructuras críticas con poca presencia de personal, reduciendo costos operativos y asegurando el correcto funcionamiento de los sistemas de abastecimiento.
+El script graba muestras de audio, las convierte en espectrogramas mel normalizados y entrena un autoencoder hasta que el error de validación cae por debajo de un umbral. Luego, usa el modelo para predecir errores en nuevas muestras y estima el nivel de "daño" acústico.
 
 ---
 
+## ⚙️ Configuración
+
+Parámetros definidos en el script:
+
+| Parámetro       | Descripción                                        |
+|-----------------|----------------------------------------------------|
+| `N_MELS`        | Número de bandas mel en el espectrograma.         |
+| `FIXED_FRAMES`  | Número fijo de frames en el eje temporal.         |
+| `DURATION`      | Duración de la grabación (en segundos).           |
+| `SAMPLING_RATE` | Frecuencia de muestreo del audio.                 |
+| `BATCH_AUDIOS`  | Tamaño del lote de muestras por iteración.        |
+
+---
+
+## 🧩 Funciones
+
+### `preprocess_signal(signal: np.ndarray) -> np.ndarray`
+
+Convierte una señal de audio en un espectrograma mel normalizado y de tamaño fijo.
+
+- **Parámetros:**  
+  `signal`: señal de audio en un array de NumPy.
+
+- **Retorna:**  
+  Espectrograma mel normalizado como `np.ndarray`.
+
+---
+
+### `record_audio() -> np.ndarray`
+
+Graba una muestra de audio de duración fija usando `arecord`.
+
+- **Retorna:**  
+  Señal de audio como array de enteros de 32 bits (`np.int32`).
+
+---
+
+### `autoencoder_model(input_dim: int) -> Model`
+
+Crea y compila un autoencoder simétrico con cuello de botella.
+
+- **Parámetros:**  
+  `input_dim`: dimensión del vector de entrada (espectrograma aplanado).
+
+- **Retorna:**  
+  Modelo Keras compilado (`tensorflow.keras.models.Model`).
+
+---
+
+### `main()`
+
+Función principal que:
+1. Entrena el autoencoder por lotes hasta que `val_loss` < `threshold`.
+2. Inicia predicción en tiempo real sobre nuevas muestras.
+3. Calcula el error y estima el "daño" como un porcentaje relativo.
+
+---
+
+## 🚀 Ejecución
+
+```bash
+python script.py --batch_size 16 --threshold 0.1

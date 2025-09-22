@@ -1,0 +1,13 @@
+python-dotenv
+paho-mqtt
+mysql-connector-python
+streamlit
+streamlit-extras
+great-tables
+numpy
+wave
+psycopg2-binary
+pydub
+Flask
+Flask-Cors
+pandas
