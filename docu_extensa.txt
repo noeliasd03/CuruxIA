@@ -1,0 +1,15 @@
+📂 estructura/database – Documentación
+
+Esta carpeta contiene todo lo necesario para crear, poblar y manipular la base de datos del proyecto Curuxia.
+
+Contenido de la carpeta
+Archivo / Carpeta	Descripción
+audio_record.txt	Archivo de ejemplo con un audio codificado en Base64. Se usa para insertar alertas de prueba.
+create_database.py	Script Python para crear la base de datos, tablas y datos iniciales.
+db_structure.sql	SQL que define la estructura de la base de datos (machine y alert).
+data_insertion.sql	SQL con datos de ejemplo para la tabla machine.
+insert_alerts_batch.py	Script Python para insertar alertas en lotes usando audios Base64.
+conector_postgres/	Funciones Python para conectarse a PostgreSQL y manipular alertas.
+raw_code/	Scripts SQL antiguos o de referencia (alert_sql.txt, machine_sql.txt).
+
+📊 Diagrama de flujo – estructura/database
