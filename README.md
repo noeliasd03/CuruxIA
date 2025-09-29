@@ -103,7 +103,7 @@ python3 subscriber.py
 
 ## Equipo
 
-Martín Amor
-Celia Incera
-Inés Poses
-Noelia Sánchez
+- **Martín Amor** - [LinkedIn](https://www.linkedin.com/in/mart%C3%ADn-amor-garc%C3%ADa/)
+- **Celia Incera** - [LinkedIn](https://www.linkedin.com/in/celia-incera-alonso-b45b9a2b8?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)
+- **Inés Poses** - [LinkedIn](https://www.linkedin.com/in/in%C3%A9s-poses-gonz%C3%A1lez-73a80a299/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
+- **Noelia Sánchez** - [LinkedIn](https://www.linkedin.com/in/noelia-sanchez-dominguez)
