@@ -39,31 +39,29 @@ CuruxIA/
 
 ## Instalación y despliegue
 
-**1. Clonar el repositorio** 
+**1. Clonar el repositorio**  
 git clone https://github.com/noeliasd03/CuruxIA.git  
 cd CuruxIA  
 
-**2. Crear entorno virtual e instalar dependencias**  
+**2. Crear entorno virtual e instalar dependencias**    
 python -m venv .venv  
 source .venv/bin/activate   
 
-**Dependencias del sistema** 
-sudo apt update && sudo apt install pkg-config libmysqlclient-dev  
+- Dependencias del sistema:  
+  sudo apt update && sudo apt install pkg-config libmysqlclient-dev  
 
-**Instalar Python requirements** 
-pip install mysqlclient  
-pip install -r requirements.txt  
+- Instalar Python requirements     
+  pip install mysqlclient   
+  pip install -r requirements.txt   
 
-**3. Configurar variables de entorno**  
-
+**3. Configurar variables de entorno**    
 Copia el archivo .env.example y renómbralo a .env.  
 Edita las credenciales según tu configuración (DB, broker MQTT, email…).  
 
 cp .env.example .env  
 
 **4. Instalar y configurar MySQL**  
-sudo apt update && sudo apt install mysql-server mysql-client  
-
+sudo apt update && sudo apt install mysql-server mysql-client    
 sudo mysql  
 CREATE DATABASE curuxia_project;  
 CREATE USER 'curuxia_admin'@'localhost' IDENTIFIED BY 'clave_segura';  
@@ -84,8 +82,7 @@ python3 insert_alerts_batch.py
 cd estructura/ui_react/backend  
 python3 app.py  
 
-Prueba la API:  
-
+Prueba la API:    
 curl http://127.0.0.1:5000/api/alerts  
 
 **Frontend (React)**  
