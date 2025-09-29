@@ -98,3 +98,12 @@ streamlit run main.py
 En el ordenador local (subscriber):    
 cd estructura/pub_sub  
 python3 subscriber.py  
+
+---
+
+## Equipo
+
+Martín Amor
+Celia Incera
+Inés Poses
+Noelia Sánchez
