@@ -1,72 +1,105 @@
-# 🎧 Autoencoder para Detección de Anomalías Acústicas
+# CuruxIA – Detección acústica de anomalías en maquinaria industrial
 
-Este proyecto implementa un sistema de entrenamiento y predicción en tiempo real con un autoencoder que detecta anomalías acústicas usando espectrogramas mel.
-
-## 📋 Descripción
-
-El script graba muestras de audio, las convierte en espectrogramas mel normalizados y entrena un autoencoder hasta que el error de validación cae por debajo de un umbral. Luego, usa el modelo para predecir errores en nuevas muestras y estima el nivel de "daño" acústico.
+CuruxIA es un sistema autónomo que permite detectar anomalías acústicas en máquinas industriales mediante sensores conectados a dispositivos Raspberry Pi.
+El sistema procesa el audio en tiempo real, genera alertas cuando detecta comportamientos anómalos y ofrece una interfaz web para la supervisión técnica.
 
 ---
 
-## ⚙️ Configuración
+## Características principales
 
-Parámetros definidos en el script:
-
-| Parámetro       | Descripción                                        |
-|-----------------|----------------------------------------------------|
-| `N_MELS`        | Número de bandas mel en el espectrograma.         |
-| `FIXED_FRAMES`  | Número fijo de frames en el eje temporal.         |
-| `DURATION`      | Duración de la grabación (en segundos).           |
-| `SAMPLING_RATE` | Frecuencia de muestreo del audio.                 |
-| `BATCH_AUDIOS`  | Tamaño del lote de muestras por iteración.        |
-
----
-
-## 🧩 Funciones
-
-### `preprocess_signal(signal: np.ndarray) -> np.ndarray`
-
-Convierte una señal de audio en un espectrograma mel normalizado y de tamaño fijo.
-
-- **Parámetros:**  
-  `signal`: señal de audio en un array de NumPy.
-
-- **Retorna:**  
-  Espectrograma mel normalizado como `np.ndarray`.
+- **Captación de sonido**: Raspberry Pi + sensor Adafruit I2S MEMS, graban segmentos de audio de la maquinaria.
+- **Procesamiento de audio con IA**:
+Los audios se convierten a espectogramas y se analizan con:
+  - Autoencoder (detección no supervisada de anomalías).
+  - Clasificador supervisado (identificación del tipo de fallo).
+- **Comunicación mediante MQTT**:envío eficiente de alertas desde el dispositivo a servidor.
+- **Base de datos SQL**: almacenamiento de máquinas, alertas y audios asociados.
+- **Interfaz web** (React + Streamlit): visualización de alertas, gráficas sonoras e interacción con los técnicos.
+- **Notificaciones**: envío de alertas por correo electrónico.
+- **Aprendizaje continuo**: reentrenamiento del modelo con ejemplos etiquetados por técnicos.
 
 ---
 
-### `record_audio() -> np.ndarray`
+## Flujo del proyecto
 
-Graba una muestra de audio de duración fija usando `arecord`.
-
-- **Retorna:**  
-  Señal de audio como array de enteros de 32 bits (`np.int32`).
+/imagen_de_marca/diagrama.png
 
 ---
 
-### `autoencoder_model(input_dim: int) -> Model`
+## Estructura del repo
 
-Crea y compila un autoencoder simétrico con cuello de botella.
+CuruxIA/ 
+├── docu/               # Documentación extensa, elevator pitch y demo del proyecto.
+├── estructura/         # Base de datos, pub/sub y frontend 
+├── imagen_de_marca/    # Branding y logo del proyecto 
+├── modelosIA/          # Scripts de entrenamiento y predicción 
+├── requirements.txt    # Dependencias principales 
+├── .env.example        # Variables de entorno de ejemplo 
+└── README.md           # Este archivo 
 
-- **Parámetros:**  
-  `input_dim`: dimensión del vector de entrada (espectrograma aplanado).
+## Instalación y despliegue
 
-- **Retorna:**  
-  Modelo Keras compilado (`tensorflow.keras.models.Model`).
+1. Clonar el repositorio
+git clone https://github.com/noeliasd03/CuruxIA.git
+cd CuruxIA
+
+2. Crear entorno virtual e instalar dependencias
+python -m venv .venv
+source .venv/bin/activate
+
+# Dependencias del sistema
+sudo apt update && sudo apt install pkg-config libmysqlclient-dev
+
+# Instalar Python requirements
+pip install mysqlclient
+pip install -r requirements.txt
+
+3. Configurar variables de entorno
+
+Copia el archivo .env.example y renómbralo a .env.
+Edita las credenciales según tu configuración (DB, broker MQTT, email…).
+
+cp .env.example .env
+
+4. Instalar y configurar MySQL
+sudo apt update && sudo apt install mysql-server mysql-client
+
+sudo mysql
+CREATE DATABASE curuxia_project;
+CREATE USER 'curuxia_admin'@'localhost' IDENTIFIED BY 'clave_segura';
+GRANT ALL PRIVILEGES ON curuxia_project.* TO 'curuxia_admin'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+
+5. Crear la base de datos e insertar datos de prueba
+cd estructura/database
+python3 create_database.py
+python3 insert_alerts_batch.py
 
 ---
 
-### `main()`
+▶️ Ejecución
+Backend (Flask API)
+cd estructura/ui_react/backend
+python3 app.py
 
-Función principal que:
-1. Entrena el autoencoder por lotes hasta que `val_loss` < `threshold`.
-2. Inicia predicción en tiempo real sobre nuevas muestras.
-3. Calcula el error y estima el "daño" como un porcentaje relativo.
+Prueba la API:
 
----
+curl http://127.0.0.1:5000/api/alerts
 
-## 🚀 Ejecución
+Frontend (React)
+cd estructura/ui_react/web
+npm install
+npm install leaflet
+npm start
 
-```bash
-python script.py --batch_size 16 --threshold 0.1
+Dashboard Streamlit (interfaz inicial)
+cd estructura/ui_react
+streamlit run main.py
+
+Pub/Sub con MQTT
+
+En el ordenador local (subscriber):
+
+cd estructura/pub_sub
+python3 subscriber.py
