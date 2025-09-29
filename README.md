@@ -22,8 +22,7 @@ Los audios se convierten a espectogramas y se analizan con:
 
 ## Flujo del proyecto
 
-/imagen_de_marca/diagrama.png
-
+![Flujo del proyecto](/imagen_de_marca/flujo.png)
 ---
 
 ## Estructura del repo
